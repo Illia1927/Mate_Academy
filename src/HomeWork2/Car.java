@@ -4,13 +4,15 @@ import java.util.Arrays;
 import java.util.Date;
 
 public class Car {
+    private final double MAX_WHEEL_STATE = 1.0;
+    private final double MIN_WHEEL_STATE = 0.0;
     private Date dateOfMade;
     private TypeEngine typePower;
     private static int maxSpeed;
     private int chargeTime;
     private int maxPass;
     private int currentPass;
-    private static int currentSpeed;
+    private int currentSpeed;
     private CarWheel[] arrOfWheels;
     private CarDoor[] arrOfDoors;
 
@@ -73,6 +75,41 @@ public class Car {
 
     public CarWheel[] removeAllWheels() {
         return arrOfWheels = null;
+    }
+
+    public double getFastestPossibleSpeed() {
+        double maxWheelState = MAX_WHEEL_STATE;
+        double minWheelState = MIN_WHEEL_STATE;
+        if (currentPass < 0) {
+            System.out.println("The are no pass in your car!");
+            return 0;
+        }
+        for (int i = 0; i < arrOfWheels.length; i++) {
+            if (arrOfWheels[i].getWheelState() < minWheelState) {
+                System.out.println("You iptuted incorrect data");
+            } else if (arrOfWheels[i].getWheelState() < maxWheelState) {
+                maxWheelState = arrOfWheels[i].getWheelState();
+            }
+        }
+        return maxSpeed * maxWheelState;
+    }
+
+    public void addAnotherWheel(int numOfWheels) {
+        CarWheel[] addWheel = new CarWheel[arrOfWheels.length + numOfWheels];
+        if (numOfWheels < 0) {
+            System.out.println("You iptuted incorrect data");
+        } else {
+            if (arrOfWheels.length != 0) {
+                for (int i = 0; i < arrOfWheels.length; i++) {
+                    if (addWheel[i] == null) {
+                        addWheel[i] = new CarWheel();
+                    }else {
+                        addWheel[i] = arrOfWheels[i];
+                    }
+                }
+            }
+        }
+        arrOfWheels = addWheel;
     }
 
     @Override
